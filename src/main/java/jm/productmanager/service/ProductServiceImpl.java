@@ -38,7 +38,6 @@ public class ProductServiceImpl implements ProductService {
     public Product createProduct(ProductDTO productDTO) {
         validateNotNullProductDTOFields(productDTO);
         validateProductDTO(productDTO, null);
-
         Product newProduct = productMapper.mapToEntity(productDTO, categoryService.getCategory(productDTO.getCategoryId()));
         return productRepository.save(newProduct);
     }
@@ -79,7 +78,7 @@ public class ProductServiceImpl implements ProductService {
         if (product.getName() != null && !product.getName().matches("^[a-zA-Z0-9]{3,20}$")) {
             throw new IllegalArgumentException("Product name should be between 3 and 20 characters and contain only letters and numbers");
         }
-        if (blockedWordService.existsByName(product.getName())) {
+        if (blockedWordService.containsBlockedWord(product.getName())) {
             throw new IllegalArgumentException("Product name contains blocked words");
         }
         if (productRepository.existsByName(product.getName())) {
@@ -97,6 +96,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public MessageResponse deleteProduct(UUID id) {
+        getProduct(id);
         productRepository.deleteById(id);
         return new MessageResponse("Product with id: " + id + " has been deleted");
     }

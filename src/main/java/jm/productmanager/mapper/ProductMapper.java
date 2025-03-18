@@ -7,8 +7,10 @@ import org.mapstruct.*;
 
 @Mapper(componentModel = "spring")
 public interface ProductMapper {
+    @Mapping(target = "id", ignore = true)
     @Mapping(target = "name", source = "productDTO.name")
     @Mapping(target = "category", source = "category")
+    @Mapping(target = "createdAt", expression = "java(java.time.LocalDateTime.now())")
     Product mapToEntity(ProductDTO productDTO, Category category);
 
     @Mapping(target = "id", ignore = true)

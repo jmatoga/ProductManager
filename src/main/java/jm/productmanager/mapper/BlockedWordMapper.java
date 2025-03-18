@@ -6,6 +6,7 @@ import org.mapstruct.*;
 
 @Mapper(componentModel = "spring")
 public interface BlockedWordMapper {
+    @Mapping(target = "id", ignore = true)
     BlockedWord mapToEntity(BlockedWordDTO blockedWordDTO);
 
     @Mapping(target = "id", ignore = true)

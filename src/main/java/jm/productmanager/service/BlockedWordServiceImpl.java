@@ -30,8 +30,8 @@ public class BlockedWordServiceImpl implements BlockedWordService {
     }
 
     @Override
-    public boolean existsByName(String name) {
-        return blockedWordRepository.existsByName(name);
+    public boolean containsBlockedWord(String name) {
+        return blockedWordRepository.containsBlockedWord(name);
     }
 
     @Override
@@ -50,6 +50,7 @@ public class BlockedWordServiceImpl implements BlockedWordService {
 
     @Override
     public MessageResponse deleteBlockedWord(UUID id) {
+        getBlockedWord(id);
         blockedWordRepository.deleteById(id);
         return new MessageResponse("Blocked word with id: " + id + " has been deleted");
     }
@@ -58,7 +59,7 @@ public class BlockedWordServiceImpl implements BlockedWordService {
         if (categoryDTO.getName() == null || !categoryDTO.getName().matches("^[a-zA-Z0-9]{3,20}$")) {
             throw new IllegalArgumentException("Product name should be between 3 and 20 characters and contain only letters and numbers");
         }
-        if (blockedWordRepository.existsByName(categoryDTO.getName())) {
+        if (blockedWordRepository.containsBlockedWord(categoryDTO.getName())) {
             throw new IllegalArgumentException("Blocked word with name " + categoryDTO.getName() + " already exists");
         }
     }

@@ -12,7 +12,7 @@ public interface BlockedWordService {
 
     BlockedWord getBlockedWord(UUID id);
 
-    boolean existsByName(String name);
+    boolean containsBlockedWord(String name);
 
     BlockedWord createBlockedWord(BlockedWordDTO blockedWordDTO);
 
