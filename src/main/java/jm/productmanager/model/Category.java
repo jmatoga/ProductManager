@@ -1,6 +1,8 @@
 package jm.productmanager.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,7 +20,16 @@ public class Category {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
+
+    @Column(unique = true, nullable = false)
+    @Pattern(regexp = "^[a-zA-Z0-9]{3,20}$", message = "Category name should be between 3 and 20 characters and contain only letters and numbers")
     private String name;
+
+    @Column(nullable = false)
+    @Min(value = 0, message = "Category minPrice cannot be negative")
     private Double minPrice;
+
+    @Column(nullable = false)
+    @Min(value = 0, message = "Category maxPrice cannot be negative")
     private Double maxPrice;
 }
